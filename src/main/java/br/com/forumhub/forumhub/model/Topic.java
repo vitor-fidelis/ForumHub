@@ -1,4 +1,6 @@
 package br.com.forumhub.forumhub.model;
+import br.com.forumhub.forumhub.model.dto.AtualizacaoTopicoDTO;
+import br.com.forumhub.forumhub.model.dto.TopicDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -45,6 +47,8 @@ public class Topic {
         this.autor = autor;
         this.curso = curso;
     }
+
+
 
     public Long getId() {
         return id;
@@ -119,6 +123,29 @@ public class Topic {
                 ", autor='" + autor + '\'' +
                 ", curso='" + curso + '\'' +
                 '}';
+    }
+
+    public void atualizarTopico(AtualizacaoTopicoDTO dto) throws Exception {
+        if(dto.titulo() != null ){
+            this.titulo = dto.titulo();
+        }
+
+        if(dto.mensagem() != null ){
+            this.mensagem = dto.mensagem();
+        }
+
+        if(dto.estado() != null ){
+            this.estado = dto.estado();
+        }
+
+        if(dto.autor() != null ){
+            this.autor = dto.autor();
+        }
+
+        if(dto.curso() != null ){
+            this.curso = dto.curso();
+        }
+
     }
 }
 
