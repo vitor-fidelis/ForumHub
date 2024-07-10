@@ -1,6 +1,7 @@
 package br.com.forumhub.forumhub.controller;
 
 import br.com.forumhub.forumhub.model.dto.AtualizacaoTopicoDTO;
+import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +90,23 @@ public class TopicController {
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
             logger.error("Erro ao atualizar o tópico com ID " + id, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> deleteTopic(@PathVariable Long id) {
+        Optional<Topic> optionalTopic = topicRepository.findById(id);
+        if (optionalTopic.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        try {
+            topicRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            logger.error("Erro ao excluir o tópico com ID " + id, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
