@@ -1,4 +1,4 @@
-package br.com.forumhub.forumhub.config;
+package br.com.forumhub.forumhub.infra.security;
 
 import br.com.forumhub.forumhub.interceptor.LoggingInterceptor;
 import org.springframework.context.annotation.Configuration;

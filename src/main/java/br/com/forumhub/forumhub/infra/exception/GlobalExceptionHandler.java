@@ -1,4 +1,4 @@
-package br.com.forumhub.forumhub.exception;
+package br.com.forumhub.forumhub.infra.exception;
 
 
 import org.slf4j.Logger;

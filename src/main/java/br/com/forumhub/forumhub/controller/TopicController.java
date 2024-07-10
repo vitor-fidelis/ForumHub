@@ -1,7 +1,6 @@
 package br.com.forumhub.forumhub.controller;
 
 import br.com.forumhub.forumhub.model.dto.AtualizacaoTopicoDTO;
-import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import br.com.forumhub.forumhub.model.Topic;
 import br.com.forumhub.forumhub.model.dto.TopicDTO;
 import br.com.forumhub.forumhub.repository.TopicRepository;
-
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
