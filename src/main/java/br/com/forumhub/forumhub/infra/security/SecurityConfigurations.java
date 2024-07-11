@@ -29,7 +29,7 @@ public class SecurityConfigurations {
     }
 
     @Bean
-    public PasswordEncoder passrordEncoder(){
+    public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 }

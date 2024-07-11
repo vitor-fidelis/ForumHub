@@ -1,6 +1,5 @@
 package br.com.forumhub.forumhub.model;
 import br.com.forumhub.forumhub.model.dto.AtualizacaoTopicoDTO;
-import br.com.forumhub.forumhub.model.dto.TopicDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
