@@ -15,21 +15,15 @@ public class LoggingInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        // Lógica para executar antes do controle chegar ao handler (controller)
         logRequestDetails(request);
-        return true; // Retornar true para permitir que o fluxo continue para o handler
+        return true;
     }
 
     private void logRequestDetails(HttpServletRequest request) {
-        // Log do método HTTP e URI da requisição
         logger.info("Método HTTP: {}", request.getMethod());
         logger.info("URI: {}", request.getRequestURI());
-
-        // Log dos cabeçalhos da requisição
         logger.info("Cabeçalhos:");
         Collections.list(request.getHeaderNames())
                 .forEach(headerName -> logger.info("{}: {}", headerName, request.getHeader(headerName)));
     }
 }
-
-

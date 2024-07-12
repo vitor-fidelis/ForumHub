@@ -1,32 +1,31 @@
 package br.com.forumhub.forumhub.infra.exception;
 
-
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
+
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.HashMap;
+import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleAllExceptions(Exception ex, WebRequest request) {
-        // Log a mensagem completa para debug
-        logger.error("Erro: ", ex);
+    public ResponseEntity<Map<String, Object>> handleException(Exception ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", LocalDateTime.now().toInstant(ZoneOffset.of("+00:00")));
 
-        // Retorna apenas a mensagem de erro simplificada
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        response.put("error", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
+        response.put("message: ", ex.getMessage());
+
+        // Log a exception completa no nível de erro
+        LoggerFactory.getLogger(GlobalExceptionHandler.class).error("Exception caught", ex);
+
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    // Adicione outros métodos de tratamento conforme necessário
 }
