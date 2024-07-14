@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import br.com.forumhub.forumhub.model.Topic;
 import br.com.forumhub.forumhub.model.dto.TopicDTO;
-import br.com.forumhub.forumhub.repository.TopicRepository;
+import br.com.forumhub.forumhub.repository.TopicoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -24,24 +24,24 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/topics")
-public class TopicController {
+public class TopicoController {
 
-    private static final Logger logger = LoggerFactory.getLogger(TopicController.class);
+    private static final Logger logger = LoggerFactory.getLogger(TopicoController.class);
 
     @Autowired
-    private TopicRepository topicRepository;
+    private TopicoRepository topicoRepository;
 
     // Método para criar um novo tópico
     @PostMapping
     public ResponseEntity<Topic> createTopic(@RequestBody Topic topic) {
-        Topic savedTopic = topicRepository.save(topic);
+        Topic savedTopic = topicoRepository.save(topic);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTopic);
     }
 
     // Método para listar todos os tópicos
     @GetMapping
     public List<TopicDTO> listarTopicos() {
-        List<Topic> topics = topicRepository.findAll(Sort.by(Sort.Direction.ASC, "dataCriacao"));
+        List<Topic> topics = topicoRepository.findAll(Sort.by(Sort.Direction.ASC, "dataCriacao"));
         return topics.stream()
                 .map(TopicDTO::new) // Convertendo Topic para TopicDTO
                 .collect(Collectors.toList());
@@ -50,14 +50,14 @@ public class TopicController {
     // Método para listar tópicos paginados
     @GetMapping("/paginado")
     public Page<TopicDTO> listarTopicosPaginado(@PageableDefault(size = 10) Pageable pageable) {
-        Page<Topic> topics = topicRepository.findAll(pageable);
+        Page<Topic> topics = topicoRepository.findAll(pageable);
         return topics.map(TopicDTO::new); // Convertendo Page<Topic> para Page<TopicDTO>
     }
 
     // Método para detalhar um tópico por ID
     @GetMapping("/{id}")
     public ResponseEntity<TopicDTO> detalharTopico(@PathVariable Long id) {
-        Optional<Topic> optionalTopic = topicRepository.findById(id);
+        Optional<Topic> optionalTopic = topicoRepository.findById(id);
         if (optionalTopic.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -69,7 +69,7 @@ public class TopicController {
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<TopicDTO> atualizarTopico(@PathVariable Long id, @RequestBody @Valid AtualizacaoTopicoDTO atualizacaoTopicoDTO) {
-        Optional<Topic> optionalTopic = topicRepository.findById(id);
+        Optional<Topic> optionalTopic = topicoRepository.findById(id);
         if (optionalTopic.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -78,7 +78,7 @@ public class TopicController {
 
         try {
             topic.atualizarTopico(atualizacaoTopicoDTO);
-            topicRepository.save(topic); // Salva as alterações no banco de dados
+            topicoRepository.save(topic); // Salva as alterações no banco de dados
             return ResponseEntity.ok(new TopicDTO(topic));
         } catch (EntityNotFoundException e) {
             logger.error("Tópico não encontrado com o ID " + id, e);
@@ -95,13 +95,13 @@ public class TopicController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> deleteTopic(@PathVariable Long id) {
-        Optional<Topic> optionalTopic = topicRepository.findById(id);
+        Optional<Topic> optionalTopic = topicoRepository.findById(id);
         if (optionalTopic.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
         try {
-            topicRepository.deleteById(id);
+            topicoRepository.deleteById(id);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             logger.error("Erro ao excluir o tópico com ID " + id, e);
