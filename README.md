@@ -83,3 +83,5 @@ Este projeto está licenciado sob a Licença Apache 2.0. Veja o arquivo [LICENSE
 
 ## Badge Conclusão
 
+![Badge-Spring](https://github.com/user-attachments/assets/849767dd-4fc0-4905-a9e0-38bb757c70f3)
+
